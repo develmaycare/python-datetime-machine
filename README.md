@@ -8,7 +8,7 @@ in way that is contextual and obvious.
 ## Disclaimer
 
 We *are* using this package in various projects, but it is still experimental
-and there are no unit tests. Use at your own risks.
+and there are no unit tests. Use at your own risk.
 
 Feedback is welcomed.
 
