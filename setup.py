@@ -41,7 +41,7 @@ def get_version():
 
 
 setup(
-    name='python-datetime-machine',
+    name='datetime-machine',
     version=get_version(),
     description='Easily work with ranges of datetimes.',
     long_description=get_description(),
