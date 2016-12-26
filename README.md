@@ -16,7 +16,7 @@ Feedback is welcomed.
 
 Install using PIP:
 
-    pip install https://bitbucket.org/bogeymin/python-datetime-machine/get/master.zip;
+    pip install git+https://github.com/develmaycare/python-datetime-machine.git;
 
 ## Examples
 
