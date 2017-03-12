@@ -1,11 +1,15 @@
-# Python Datetime Machine
+# Python DateTime Machine
+
+A Python library package for working with datetimes, and especially moving datetimes around.
+
+## Background
 
 Working with dates and times in any programming language is always painful and
 often non-intuitive. Python has a great tool set for dates and times, but there
 is a useful layer that's missing – the ability to easily manipulate datetimes
 in way that is contextual and obvious.
 
-## Disclaimer
+## Status
 
 We *are* using this package in various projects, but it is still experimental
 and there are no unit tests. Use at your own risk.
@@ -55,3 +59,6 @@ Testing a range::
         if dt_range.includes(dt):
             print("datetime is in range: %s" % dt)
     
+
+
+
