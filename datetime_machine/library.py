@@ -1,6 +1,7 @@
 # Imports
 
-from datetime import datetime
+from datetime import date, datetime
+from dateutil import parser as datetime_parser
 import pytz
 from utils import increment, is_business_day
 from variables import CURRENT_DT
@@ -41,14 +42,48 @@ class DateTime(object):
 
     # TODO: Implement is_same(self, dt) or is_same_as()
 
-    def __init__(self, dt=None):
+    def __init__(self, dt=None, input_format=None):
         """Initialize a new date time instance.
 
         :param dt: A Python datetime. If omitted ``CURRENT_DT`` is used.
-        :type dt: datetime
+        :type dt: datetime | date | str | DateTime
+
+        :param input_format: The format of the datetime when given as a string. See `strptime behavior`_.
+                             If omitted, an attempt will be made to automatically parse the string, which may not be
+                             ideal.
+        :type input_format: str
+
+        .. _strptime behavior: https://docs.python.org/2.7/library/datetime.html#strftime-strptime-behavior
+
+        .. versionchanged:: 0.5.0-d
+            Added support for input other than a datetime object.
+
+        .. note::
+            The ``dt`` parameter may be given as a ``datetime``, which is generally preferred. However, it may also be
+            given as a ``date``, ``str``, or another ``DateTime`` instance:
+
+            - ``date``: The given date is converted to a ``datetime`` object using ``pytz.UTC`` for ``tzinfo``.
+            - ``DateTime``: In this case, the ``dt`` property of the given instance is used.
+            - ``str``: The string is converted using ``strptime()``.
 
         """
-        if dt is None:
+
+        if type(dt) == date:
+            # noinspection PyTypeChecker
+            dt = datetime(date.year, date.month, date.day, tzinfo=pytz.UTC)
+        elif isinstance(dt, DateTime):
+            dt = dt.dt
+        elif type(dt) == str:
+            if input_format:
+                dt = datetime.strptime(dt, input_format)
+            else:
+                dt = datetime_parser.parse(dt)
+        elif type(dt) == unicode:
+            if input_format:
+                dt = datetime.strptime(dt.decode(), input_format)
+            else:
+                dt = datetime_parser.parse(dt.decode())
+        else:
             dt = CURRENT_DT
 
         self._current_dt = dt
@@ -145,6 +180,12 @@ class DateTime(object):
 
         """
         return self._starting_dt
+
+    def set_hour(self, value):
+        self._current_dt = self._current_dt.replace(hour=value)
+
+    def set_minute(self, value):
+        self._current_dt = self._current_dt.replace(minute=value)
 
     def set_timezone(self, timezone='utc'):
         """Set (reset) the timezone for the current datetime.
