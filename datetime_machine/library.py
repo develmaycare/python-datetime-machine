@@ -68,7 +68,9 @@ class DateTime(object):
 
         """
 
-        if type(dt) == date:
+        if type(dt) == datetime:
+            pass
+        elif type(dt) == date:
             # noinspection PyTypeChecker
             dt = datetime(date.year, date.month, date.day, tzinfo=pytz.UTC)
         elif isinstance(dt, DateTime):
