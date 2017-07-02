@@ -20,7 +20,7 @@ Feedback is welcomed.
 
 Install using PIP:
 
-    pip install https://bitbucket.org/bogeymin/python-datetime-machine/get/master.zip;
+    pip install git+https://github.com/develmaycare/python-datetime-machine.git;
 
 ## Examples
 
@@ -58,7 +58,3 @@ Testing a range::
     for dt in datetimes:
         if dt_range.includes(dt):
             print("datetime is in range: %s" % dt)
-    
-
-
-
