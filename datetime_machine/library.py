@@ -35,9 +35,6 @@ class DateTime(object):
 
     # TODO: Implement to_date() method.
 
-    # TODO: Implement from_date() method or modify __init__ to accept date
-    # objects?
-
     # TODO: Implement is_in_quarter() or in_quarter() method.
 
     # TODO: Implement is_same(self, dt) or is_same_as()
@@ -104,6 +101,40 @@ class DateTime(object):
 
         """
         return self._current_dt
+
+    def decrement(self, business_days=0, holidays=None, **kwargs):
+        """Reverse the date and time using the given parameters.
+
+       :param business_days: The number of business days to increment.
+        :type business_days: int
+
+        :param holidays: Holidays or other time off.
+        :type holidays: list
+
+        The remaining keyword arguments are used to increment the ``datetime``
+        by the specified amount. These are:
+
+        - years
+        - months
+        - weeks
+        - days
+        - hours
+        - minutes
+        - seconds
+        - microseconds
+
+        :rtype: datetime
+
+        """
+        if business_days:
+            reverse_business_days = business_days - business_days * 2
+
+        reverse_kwargs = dict()
+        for key, value in kwargs.items():
+            reverse_value = value - value * 2
+            reverse_kwargs[key] = reverse_value
+
+        return self.increment(business_days=reverse_business_days, holidays=holidays, **reverse_kwargs)
 
     @property
     def dt(self):
