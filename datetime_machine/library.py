@@ -33,8 +33,6 @@ class DateTime(object):
 
     """
 
-    # TODO: Implement to_date() method.
-
     # TODO: Implement is_in_quarter() or in_quarter() method.
 
     # TODO: Implement is_same(self, dt) or is_same_as()
@@ -69,7 +67,7 @@ class DateTime(object):
             pass
         elif type(dt) == date:
             # noinspection PyTypeChecker
-            dt = datetime(date.year, date.month, date.day, tzinfo=pytz.UTC)
+            dt = datetime(dt.year, dt.month, dt.day, tzinfo=pytz.UTC)
         elif isinstance(dt, DateTime):
             dt = dt.dt
         elif type(dt) == str:
@@ -125,9 +123,13 @@ class DateTime(object):
 
         :rtype: datetime
 
+        .. versionadded: 0.5.2-d
+
         """
         if business_days:
             reverse_business_days = business_days - business_days * 2
+        else:
+            reverse_business_days = 0
 
         reverse_kwargs = dict()
         for key, value in kwargs.items():
@@ -215,13 +217,25 @@ class DateTime(object):
         return self._starting_dt
 
     def set_hour(self, value):
+        """Set the hour of the current date/time.
+
+        :param value: The hour.
+        :type value: int
+
+        """
         self._current_dt = self._current_dt.replace(hour=value)
 
     def set_minute(self, value):
+        """Set the minute of the current date/time.
+
+        :param value: The minute.
+        :type value: int
+
+        """
         self._current_dt = self._current_dt.replace(minute=value)
 
     def set_timezone(self, timezone='utc'):
-        """Set (reset) the timezone for the current datetime.
+        """Set (reset) the timezone for the current date/time.
 
         :param timezone: The timezone to add. This is UTC by default.
         :type timezone: str
@@ -230,12 +244,22 @@ class DateTime(object):
 
         """
         timezone = pytz.timezone(timezone)
-        self.dt.replace(tzinfo=timezone)
+        self._current_dt = self._current_dt.replace(tzinfo=timezone)
         return self.dt
 
     @property
     def timezone(self):
         return self.dt.tzinfo
+
+    def to_date(self):
+        """Get the current date/time as a date.
+
+        :rtype: date
+
+        .. versionadded: 0.5.3-d
+
+        """
+        return self._current_dt.date()
 
 
 class DateTimeRange(object):
@@ -247,10 +271,10 @@ class DateTimeRange(object):
         """Create a new range of dates.
 
         :param start_dt: The starting datetime.
-        :type start_dt: datetime
+        :type start_dt: datetime || date
 
         :param end_dt: The ending datetime.
-        :type end_dt: datetime
+        :type end_dt: datetime || date
 
         """
         self.end = None
