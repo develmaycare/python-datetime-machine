@@ -239,6 +239,15 @@ class DateTime(object):
         """
         return self._starting_dt
 
+    def set_day(self, value):
+        """Set the day of the current date/time.
+
+        :param value: The day.
+        :type value: int
+
+        """
+        self._current_dt = self._current_dt.replace(day=value)
+
     def set_hour(self, value):
         """Set the hour of the current date/time.
 
