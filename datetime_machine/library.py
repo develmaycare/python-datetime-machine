@@ -3,7 +3,7 @@
 from datetime import date, datetime
 from dateutil import parser as datetime_parser
 import pytz
-from utils import increment, is_business_day
+from utils import get_days_in_month, increment, is_business_day
 from variables import CURRENT_DT
 
 # Exports
@@ -103,14 +103,13 @@ class DateTime(object):
     def decrement(self, business_days=0, holidays=None, **kwargs):
         """Reverse the date and time using the given parameters.
 
-       :param business_days: The number of business days to increment.
+        :param business_days: The number of business days to increment.
         :type business_days: int
 
         :param holidays: Holidays or other time off.
         :type holidays: list
 
-        The remaining keyword arguments are used to increment the ``datetime``
-        by the specified amount. These are:
+        The remaining keyword arguments are used to increment the ``datetime`` by the specified amount. These are:
 
         - years
         - months
@@ -142,6 +141,30 @@ class DateTime(object):
     def dt(self):
         """See ``current``."""
         return self._current_dt
+
+    def end_of_day_dt(self):
+        """Get the date/time for the end of the current date/time.
+
+        :rtype: datetime
+
+        """
+        dt = self._current_dt
+        dt = dt.replace(hour=23, minute=59)
+        return dt
+
+    def end_of_month_dt(self):
+        """Get the date/time for the end of the month for the current date/time.
+
+        :rtype: datetime
+
+        """
+        dt = self._current_dt
+
+        day = get_days_in_month(dt.month)
+
+        dt = dt.replace(day=day, hour=23, minute=59)
+
+        return dt
 
     def increment(self, business_days=0, holidays=None, **kwargs):
         """Increment the current date and time using the given parameters.
@@ -246,6 +269,26 @@ class DateTime(object):
         timezone = pytz.timezone(timezone)
         self._current_dt = self._current_dt.replace(tzinfo=timezone)
         return self.dt
+
+    def start_of_day_dt(self):
+        """Get the date/time for the beginning of the current date/time.
+
+        :rtype: datetime
+
+        """
+        dt = self._current_dt
+        dt = dt.replace(hour=0, minute=1)
+        return dt
+
+    def start_of_month_dt(self):
+        """Get the date/time for the beginning of the month for the current date/time.
+
+        :rtype: datetime
+
+        """
+        dt = self._current_dt
+        dt = dt.replace(day=1, hour=0, minute=1)
+        return dt
 
     @property
     def timezone(self):
