@@ -376,7 +376,7 @@ class DateTimeRange(object):
         """Determine whether the given dates are included within the range.
 
         :param dt: The datetime to be checked.
-        :type dt: datetime
+        :type dt: datetime || DateTime
 
         :rtype: bool
 
