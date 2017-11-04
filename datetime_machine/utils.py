@@ -6,20 +6,38 @@ classes in the library make use of these.
 # Imports
 
 from dateutil.relativedelta import relativedelta
-from constants import (
+from .constants import (
     SATURDAY,
     SUNDAY,
 )
+from .variables import DAYS_PER_MONTH
 
 # Exports
 
 __all__ = (
+    "get_days_in_month",
     "increment",
     "is_business_day",
     "is_holiday",
 )
 
 # Functions
+
+
+def get_days_in_month(month):
+    """Get the days in a given month.
+
+    :param month: The month.
+    :type month: int
+
+    :rtype: int
+
+    """
+    for month_number, days_in_month in DAYS_PER_MONTH:
+        if month == month_number:
+            return days_in_month
+
+    raise ValueError("Not a valid month number: %s" % month)
 
 
 def increment(dt, business_days=0, holidays=None, **kwargs):
