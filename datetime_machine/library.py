@@ -166,6 +166,22 @@ class DateTime(object):
 
         return dt
 
+    def get_day_of_week(self, offset=False):
+        """Get the day of the week for the current date/time.
+
+        :param offset: Sunday in Python is ``0``. Use offset to increase they day of the week by ``1``.
+        :type offset: bool
+
+        :rtype: int
+
+        """
+        dow = int(self._current_dt.strftime("%w"))
+
+        if offset:
+            dow += 1
+
+        return dow
+
     def increment(self, business_days=0, holidays=None, **kwargs):
         """Increment the current date and time using the given parameters.
 
