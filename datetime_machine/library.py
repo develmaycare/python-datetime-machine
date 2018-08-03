@@ -3,8 +3,8 @@
 from datetime import date, datetime
 from dateutil import parser as datetime_parser
 import pytz
-from utils import get_days_in_month, increment, is_business_day
-from variables import CURRENT_DT
+from .utils import get_days_in_month, increment, is_business_day
+from .variables import CURRENT_DT
 
 # Exports
 
@@ -37,49 +37,25 @@ class DateTime(object):
 
     # TODO: Implement is_same(self, dt) or is_same_as()
 
-    def __init__(self, dt=None, input_format=None):
+    def __init__(self, dt=None):
         """Initialize a new date time instance.
 
         :param dt: A Python datetime. If omitted ``CURRENT_DT`` is used.
-        :type dt: datetime | date | str | DateTime
+        :type dt: datetime | DateTime
 
-        :param input_format: The format of the datetime when given as a string. See `strptime behavior`_.
-                             If omitted, an attempt will be made to automatically parse the string, which may not be
-                             ideal.
-        :type input_format: str
-
-        .. _strptime behavior: https://docs.python.org/2.7/library/datetime.html#strftime-strptime-behavior
-
-        .. versionchanged:: 0.5.0-d
-            Added support for input other than a datetime object.
+        .. versionchanged:: 0.6.0-d
+            Removed support for input other than datetime or DateTime objects. Also removed ``input_format`` argument.
+            See ``from_date()`` and ``from_string()`` class methods.
 
         .. note::
             The ``dt`` parameter may be given as a ``datetime``, which is generally preferred. However, it may also be
-            given as a ``date``, ``str``, or another ``DateTime`` instance:
-
-            - ``date``: The given date is converted to a ``datetime`` object using ``pytz.UTC`` for ``tzinfo``.
-            - ``DateTime``: In this case, the ``dt`` property of the given instance is used.
-            - ``str``: The string is converted using ``strptime()``.
+            given as a another ``DateTime`` instance:
 
         """
-
-        if type(dt) == datetime:
-            pass
-        elif type(dt) == date:
-            # noinspection PyTypeChecker
-            dt = datetime(dt.year, dt.month, dt.day, tzinfo=pytz.UTC)
-        elif isinstance(dt, DateTime):
+        if isinstance(dt, DateTime):
             dt = dt.dt
-        elif type(dt) == str:
-            if input_format:
-                dt = datetime.strptime(dt, input_format)
-            else:
-                dt = datetime_parser.parse(dt)
-        elif type(dt) == unicode:
-            if input_format:
-                dt = datetime.strptime(dt.decode(), input_format)
-            else:
-                dt = datetime_parser.parse(dt.decode())
+        elif type(dt) == datetime:
+            dt = dt
         else:
             dt = CURRENT_DT
 
@@ -165,6 +141,41 @@ class DateTime(object):
         dt = dt.replace(day=day, hour=23, minute=59)
 
         return dt
+
+    @classmethod
+    def from_date(cls, value):
+        """Create a new ``DateTime`` instance from a date object.
+
+        :param value: The date to be converted.
+        :type value: date
+
+        :rtype: DateTime
+
+        """
+        return datetime(value.year, value.month, value.day, tzinfo=pytz.UTC)
+
+    @classmethod
+    def from_string(cls, value, input_format):
+        """Create a new ``DateTime`` instance from a string object.
+
+        :param value: The value to be converted.
+        :type value: str
+
+        :param input_format: The format of the datetime when given as a string. See `strptime behavior`_.
+                             If omitted, an attempt will be made to automatically parse the string, which may not be
+                             ideal.
+        :type input_format: str
+
+        .. _strptime behavior: https://docs.python.org/3.7/library/datetime.html#strftime-strptime-behavior
+
+        :rtype: DateTime
+
+        """
+        # https://stackoverflow.com/a/18706449
+        if input_format:
+            return datetime.strptime(value, input_format)
+        else:
+            return datetime_parser.parse(value)
 
     def get_day_of_week(self, offset=False):
         """Get the day of the week for the current date/time.
