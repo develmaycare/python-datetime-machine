@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 
 def read(path):
-    with open(path, "rb") as f:
+    with open(path, "r") as f:
         contents = f.read()
         f.close()
     return str(contents)
