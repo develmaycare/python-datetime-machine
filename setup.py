@@ -8,7 +8,8 @@ def read(path):
     with open(path, "r") as f:
         contents = f.read()
         f.close()
-    return str(contents)
+
+    return contents
 
 
 setup(
