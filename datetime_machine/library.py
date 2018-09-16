@@ -64,7 +64,7 @@ class DateTime(object):
         self._starting_dt = dt
 
     def __str__(self):
-        return u"%s" % self.dt
+        return str(self.dt)
 
     @property
     def current(self):
@@ -152,7 +152,7 @@ class DateTime(object):
         :rtype: DateTime
 
         """
-        return datetime(value.year, value.month, value.day, tzinfo=pytz.UTC)
+        return cls(datetime(value.year, value.month, value.day, tzinfo=pytz.UTC))
 
     @classmethod
     def from_string(cls, value, input_format):
@@ -173,9 +173,9 @@ class DateTime(object):
         """
         # https://stackoverflow.com/a/18706449
         if input_format:
-            return datetime.strptime(value, input_format)
+            return cls(datetime.strptime(value, input_format))
         else:
-            return datetime_parser.parse(value)
+            return cls(datetime_parser.parse(value))
 
     def get_day_of_week(self, offset=False):
         """Get the day of the week for the current date/time.
