@@ -155,7 +155,7 @@ class DateTime(object):
         return cls(datetime(value.year, value.month, value.day, tzinfo=pytz.UTC))
 
     @classmethod
-    def from_string(cls, value, input_format):
+    def from_string(cls, value, input_format=None):
         """Create a new ``DateTime`` instance from a string object.
 
         :param value: The value to be converted.
@@ -172,7 +172,7 @@ class DateTime(object):
 
         """
         # https://stackoverflow.com/a/18706449
-        if input_format:
+        if input_format is not None:
             return cls(datetime.strptime(value, input_format))
         else:
             return cls(datetime_parser.parse(value))
