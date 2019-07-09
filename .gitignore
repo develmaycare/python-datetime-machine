@@ -1,6 +1,7 @@
 *.pyc
 .DS_Store
 .idea
+_scraps
 tmp.*
 docs/build
 tmp
