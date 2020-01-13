@@ -136,7 +136,7 @@ class DateTime(object):
         """
         dt = self._current_dt
 
-        day = get_days_in_month(dt.month)
+        day = get_days_in_month(dt.month, year=dt.year)
 
         dt = dt.replace(day=day, hour=23, minute=59)
 

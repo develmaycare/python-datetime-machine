@@ -67,8 +67,10 @@ DAYS_PER_MONTH = [
 
 # Note leap year and update DAYS_IN_MONTH as needed.
 IS_LEAP_YEAR = calendar.isleap(CURRENT_YEAR)
-if IS_LEAP_YEAR:
-    DAYS_PER_MONTH[1] = (2, 29)
+
+# This causes problems when the current year is not the year to be evaluated.
+# if IS_LEAP_YEAR:
+#     DAYS_PER_MONTH[1] = (2, 29)
 
 # Define the number of days in the current month.
 DAYS_IN_MONTH = DAYS_PER_MONTH[CURRENT_MONTH - 1][1]

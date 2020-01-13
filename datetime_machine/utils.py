@@ -5,12 +5,13 @@ classes in the library make use of these.
 """
 # Imports
 
+import calendar
 from dateutil.relativedelta import relativedelta
 from .constants import (
     SATURDAY,
     SUNDAY,
 )
-from .variables import DAYS_PER_MONTH
+from .variables import CURRENT_YEAR, DAYS_PER_MONTH
 
 # Exports
 
@@ -19,21 +20,29 @@ __all__ = (
     "increment",
     "is_business_day",
     "is_holiday",
+    "is_leap_year",
 )
 
 # Functions
 
 
-def get_days_in_month(month):
+def get_days_in_month(month, year=CURRENT_YEAR):
     """Get the days in a given month.
 
     :param month: The month.
     :type month: int
 
+    :param year: The year to be evaluated. Used to account for leap year.
+    :type year: int
+
     :rtype: int
 
     """
-    for month_number, days_in_month in DAYS_PER_MONTH:
+    days_per_month = DAYS_PER_MONTH.copy()
+    if is_leap_year(year):
+        days_per_month[1] = (2, 29)
+
+    for month_number, days_in_month in days_per_month:
         if month == month_number:
             return days_in_month
 
@@ -121,3 +130,15 @@ def is_holiday(dt, holidays):
         return dt in holidays
     else:
         return False
+
+
+def is_leap_year(year):
+    """Indicates whether the given year is a leap year.
+
+    :param year: The year to be evaluated.
+    :type year: int
+
+    :rtype: bool
+
+    """
+    return calendar.isleap(year)
