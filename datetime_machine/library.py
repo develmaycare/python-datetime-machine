@@ -1,9 +1,11 @@
 # Imports
 
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from dateutil import parser as datetime_parser
+from dateutil.relativedelta import relativedelta
 import pytz
-from .utils import get_days_in_month, increment, is_business_day
+from .constants import MONDAY, SUNDAY
+from .utils import get_days_in_month, increment, is_business_day, is_leap_year
 from .variables import CURRENT_DT
 
 # Exports
@@ -11,6 +13,9 @@ from .variables import CURRENT_DT
 __all__ = (
     "DateTime",
     "DateTimeRange",
+    "Month",
+    "Week",
+    "Year",
 )
 
 # Classes
@@ -399,3 +404,307 @@ class DateTimeRange(object):
             dt = dt.dt
 
         return self.start.dt <= dt <= self.end.dt
+
+
+class Month(object):
+    """Represents a month of time."""
+
+    def __init__(self, dt=None, input_format=None):
+        """Initialize a month instance.
+
+        :param dt: The starting date/time for the month. Defaults to the current date/time.
+        :type dt: str | date | datetime | DateTime
+
+        :param input_format: See the ``from_string()`` method on :py:class:`DateTime`.
+
+        .. tip::
+            The starting value need not be the beginning of the month.
+
+        """
+        if isinstance(dt, DateTime):
+            self.dt = dt.dt
+        elif type(dt) is date:
+            self.dt = DateTime.from_date(dt).dt
+        elif type(dt) is datetime:
+            self.dt = dt
+        elif type(dt) is str:
+            self.dt = DateTime.from_string(dt, input_format=input_format).dt
+        else:
+            self.dt = CURRENT_DT
+
+        self.total_days = get_days_in_month(self.dt.month, year=self.dt.year)
+
+    @property
+    def end_dt(self):
+        """Get the ending date/time for the last day of the month.
+
+        :rtype: datetime
+
+        """
+        return self.dt.replace(day=self.total_days, hour=23, minute=59, second=59, microsecond=0)
+
+    def forward(self, months=None, years=None):
+        """Shift the frame forward by months or years.
+
+        :param months: The number of months to increment.
+        :type months: int
+
+        :param years: The number of years to increment.
+        :type years: int
+
+        :rtype: Month
+
+        """
+        start_dt = self.start_dt + relativedelta(months=months, years=years)
+        return Month(dt=start_dt)
+
+    def next(self):
+        """Get the month after the current month.
+
+        :rtype: Month
+
+        """
+        start_dt = self.start_dt + relativedelta(months=1)
+        return Month(dt=start_dt)
+
+    def previous(self):
+        """Get the previous month before the current month.
+
+        :rtype: Month
+
+        """
+        start_dt = self.start_dt - relativedelta(months=1)
+        return Month(dt=start_dt)
+
+    def rewind(self, months=None, years=None):
+        """Shift the frame backward by months or years.
+
+        :param months: The number of months to reverse.
+        :type months: int
+
+        :param years: The number of years to reverse.
+        :type years: int
+
+        :rtype: Month
+
+        """
+        start_dt = self.start_dt - relativedelta(months=months, years=years)
+        return Month(dt=start_dt)
+
+    @property
+    def start_dt(self):
+        """Get the starting date/time for the first day of the month.
+
+        :rtype: datetime
+
+        """
+        return self.dt.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+
+
+class Week(object):
+    """Represents a week of time."""
+
+    def __init__(self, dt=None, input_format=None, start_day=MONDAY):
+        """Initialize a week instance.
+
+        :param dt: The starting date/time for the week. Defaults to the current date/time.
+        :type dt: str | date | datetime | DateTime
+
+        :param input_format: See the ``from_string()`` method on :py:class:`DateTime`.
+
+        :param start_day: The ISO weekday that starts a week.
+        :type start_day: int
+
+        .. tip::
+            The starting value need not be the beginning of the week.
+
+        """
+        if isinstance(dt, DateTime):
+            self.dt = dt.dt
+        elif type(dt) is date:
+            self.dt = DateTime.from_date(dt).dt
+        elif type(dt) is datetime:
+            self.dt = dt
+        elif type(dt) is str:
+            self.dt = DateTime.from_string(dt, input_format=input_format).dt
+        else:
+            self.dt = CURRENT_DT
+
+        self.start_day = start_day
+
+    @property
+    def end_dt(self):
+        """Get the ending date/time for the last day of the week.
+
+        :rtype: datetime
+
+        """
+        dt = self.start_dt + timedelta(days=6)
+
+        dt = dt.replace(hour=23, minute=59, second=59, microsecond=0)
+
+        return dt
+
+    def forward(self, months=None, weeks=None, years=None):
+        """Shift the frame forward by weeks, months or years.
+
+        :param months: The number of months to increment.
+        :type months: int
+
+        :param weeks: The number weeks to increment.
+        :type weeks: int
+
+        :param years: The number of years to increment.
+        :type years: int
+
+        :rtype: Week
+
+        """
+        start_dt = self.start_dt + relativedelta(weeks=weeks, months=months, years=years)
+        return Week(dt=start_dt)
+
+    def next(self):
+        """Get the week after the current week.
+
+        :rtype: Week
+
+        """
+        start_dt = self.start_dt + timedelta(days=7)
+        return Week(dt=start_dt, start_day=self.start_day)
+
+    def previous(self):
+        """Get the previous week before the current week.
+
+        :rtype: Week
+
+        """
+        start_dt = self.start_dt - timedelta(days=7)
+        return Week(dt=start_dt, start_day=self.start_day)
+
+    def rewind(self, months=None, weeks=None, years=None):
+        """Shift the frame backward by months or years.
+
+        :param months: The number of months to reverse.
+        :type months: int
+
+        :param weeks: The number weeks to increment.
+        :type weeks: int
+
+        :param years: The number of years to reverse.
+        :type years: int
+
+        :rtype: Week
+
+        """
+        start_dt = self.start_dt - relativedelta(weeks=weeks, months=months, years=years)
+        return Week(dt=start_dt)
+
+    @property
+    def start_dt(self):
+        """Get the starting date/time for the first day of the week.
+
+        :rtype: datetime
+
+        """
+        if self.start_day == SUNDAY:
+            dt = self.dt - timedelta(days=self.dt.isoweekday() % 7)
+        else:
+            dt = self.dt - timedelta(days=self.dt.isoweekday() - 1)
+
+        dt = dt.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        return dt
+
+
+class Year(object):
+    """Represents a year of time."""
+
+    def __init__(self, dt=None, input_format=None):
+        """Initialize a year instance.
+
+        :param dt: The starting date/time for the year. Defaults to the current date/time.
+        :type dt: str | date | datetime | DateTime
+
+        :param input_format: See the ``from_string()`` method on :py:class:`DateTime`.
+
+        .. tip::
+            The starting value need not be the beginning of the year.
+
+        """
+        if isinstance(dt, DateTime):
+            self.dt = dt.dt
+        elif type(dt) is date:
+            self.dt = DateTime.from_date(dt).dt
+        elif type(dt) is datetime:
+            self.dt = dt
+        elif type(dt) is str:
+            self.dt = DateTime.from_string(dt, input_format=input_format).dt
+        else:
+            self.dt = CURRENT_DT
+
+        self.is_leap_year = is_leap_year(self.dt.year)
+
+        if self.is_leap_year:
+            self.total_days = 366
+        else:
+            self.total_days = 365
+
+    @property
+    def end_dt(self):
+        """Get the ending date/time for the last day of the year.
+
+        :rtype: datetime
+
+        """
+        return self.dt.replace(month=12, day=31, hour=23, minute=59, second=59, microsecond=0)
+
+    def forward(self, years=1):
+        """Shift the frame forward by one or more years.
+
+        :param years: The number of years to increment.
+        :type years: int
+
+        :rtype: Week
+
+        """
+        start_dt = self.start_dt + relativedelta(years=years)
+        return Year(dt=start_dt)
+
+    def next(self):
+        """Get the year after the current year.
+
+        :rtype: Year
+
+        """
+        start_dt = self.start_dt + relativedelta(years=1)
+        return Year(dt=start_dt)
+
+    def previous(self):
+        """Get the previous year before the current year.
+
+        :rtype: Year
+
+        """
+        start_dt = self.start_dt - relativedelta(years=1)
+        return Year(dt=start_dt)
+
+    def rewind(self, years=1):
+        """Shift the frame backward by one or more years.
+
+        :param years: The number of years to reverse.
+        :type years: int
+
+        :rtype: Year
+
+        """
+        start_dt = self.start_dt - relativedelta(years=years)
+        return Year(dt=start_dt)
+
+    @property
+    def start_dt(self):
+        """Get the starting date/time for the first day of the year.
+
+        :rtype: datetime
+
+        """
+        return self.dt.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
