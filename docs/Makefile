@@ -53,6 +53,7 @@ clean:
 
 .PHONY: html
 html:
+	resrc pkg docs -I ../packages.ini -O rst --no-heading > source/_includes/project-dependencies.rst;
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
