@@ -5,7 +5,7 @@ unnamed numerical constants (i.e. `magic numbers`_).
 
 .. _magic numbers: https://en.wikipedia.org/wiki/Magic_number_(programming)
 
-**Days of the Week*
+**Days of the Week**
 
 The ISO weekday numbers are available as the following constants: ``MONDAY``,
 ``TUESDAY``, ``WEDNESDAY``, ``THURSDAY``, ``FRIDAY``, ``SATURDAY``, ``SUNDAY``.

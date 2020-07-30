@@ -50,6 +50,6 @@ __all__ = (
     "Year",
 )
 
-__author__ = "Shawn Davis <shawn@ptltd.co>"
-__maintainer__ = "Shawn Davis <shawn@ptltd.co>"
-__version__ = "0.7.0-d"
+__author__ = "Shawn Davis <shawn@develmaycare.com>"
+__maintainer__ = "Shawn Davis <shawn@develmaycare.com>"
+__version__ = "0.8.0-d"

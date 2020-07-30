@@ -1,16 +1,17 @@
-Python Datetime Machine
+Python DateTime Machine
 =======================
 
-Contents:
+.. raw:: html
+
+    <p><a href="https://develmaycare.com/products/datetime-machine/">Project Home Page</a></p>
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 2
 
     Introduction <introduction>
-    Constants <constants>
-    Variables <variables>
-    Utilities <utils>
-    Library <library>
+    Getting Started <getting-started>
+    Reference <reference>
+    Project <project>
 
 Indices and tables
 ==================
@@ -18,4 +19,3 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
-
