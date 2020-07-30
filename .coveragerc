@@ -1,0 +1,9 @@
+[run]
+omit =
+    _scraps/*
+    docs/*
+    setup.py
+    */compat.py
+    tests/*
+    tmp/*
+    tmp.*
