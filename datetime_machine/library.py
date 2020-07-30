@@ -24,7 +24,7 @@ __all__ = (
 class DateTime(object):
     """A class-based representation of a date and time.
 
-    .. code-block:: py
+    .. code-block:: python
 
         from datetime_machine import DateTime
 
@@ -146,6 +146,66 @@ class DateTime(object):
         dt = dt.replace(day=day, hour=23, minute=59)
 
         return dt
+
+    def fast_forward(self, business_days=0, days=None, holidays=None, hours=None, microseconds=None, minutes=None,
+                     months=None, seconds=None, weeks=None, years=None):
+        """Advance the date and time using the given parameters.
+
+        :param business_days: The number of business days to increment.
+        :type business_days: int
+
+        :param days: The number of calendar days to increment.
+        :type days: int
+
+        :param holidays: Holidays or other time off.
+        :type holidays: list
+
+        :param hours: The number of hours to increment.
+        :type hours: int
+
+        :param microseconds: The number of microseconds to increment.
+        :type microseconds: int
+
+        :param minutes: The number of minutes to increment.
+        :type minutes: int
+
+        :param months: The number of months to increment.
+        :type months: int
+
+        :param seconds: The number of seconds to increment.
+        :type seconds: int
+
+        :param weeks: The number of weeks to increment.
+        :type weeks: int
+
+        :param years: The number of years to increment.
+        :type years: int
+
+        :rtype: datetime
+
+        Internally the value of ``dt`` is also updated.
+
+        """
+        kwargs = {
+            'days': days,
+            'hours': hours,
+            'microseconds': microseconds,
+            'minutes': minutes,
+            'months': months,
+            'seconds': seconds,
+            'weeks': weeks,
+            'years': years,
+        }
+        self._current_dt = increment(
+            self.dt,
+            business_days=business_days,
+            holidays=holidays,
+            **kwargs
+        )
+
+        self._ending_dt = self._current_dt
+
+        return self.dt
 
     @classmethod
     def from_date(cls, value):
@@ -270,6 +330,67 @@ class DateTime(object):
 
         """
         return self._starting_dt
+
+    def rewind(self, business_days=0, days=None, holidays=None, hours=None, microseconds=None, minutes=None,
+                     months=None, seconds=None, weeks=None, years=None):
+        """Move the date and time using the given parameters.
+
+        :param business_days: The number of business days to increment.
+        :type business_days: int
+
+        :param days: The number of calendar days to increment.
+        :type days: int
+
+        :param holidays: Holidays or other time off.
+        :type holidays: list
+
+        :param hours: The number of hours to increment.
+        :type hours: int
+
+        :param microseconds: The number of microseconds to increment.
+        :type microseconds: int
+
+        :param minutes: The number of minutes to increment.
+        :type minutes: int
+
+        :param months: The number of months to increment.
+        :type months: int
+
+        :param seconds: The number of seconds to increment.
+        :type seconds: int
+
+        :param weeks: The number of weeks to increment.
+        :type weeks: int
+
+        :param years: The number of years to increment.
+        :type years: int
+
+        :rtype: datetime
+
+        Internally the value of ``dt`` is also updated.
+
+        """
+        kwargs = {
+            'days': days,
+            'hours': hours,
+            'microseconds': microseconds,
+            'minutes': minutes,
+            'months': months,
+            'seconds': seconds,
+            'weeks': weeks,
+            'years': years,
+        }
+        if business_days:
+            reverse_business_days = business_days - business_days * 2
+        else:
+            reverse_business_days = 0
+
+        reverse_kwargs = dict()
+        for key, value in kwargs.items():
+            reverse_value = value - value * 2
+            reverse_kwargs[key] = reverse_value
+
+        return self.fast_forward(business_days=reverse_business_days, holidays=holidays, **reverse_kwargs)
 
     def set_day(self, value):
         """Set the day of the current date/time.
