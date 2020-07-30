@@ -3,7 +3,7 @@ Python DateTime Machine
 
 .. raw:: html
 
-    <p><a href="https://develmaycare.com/products/datetime-machine/">Project Home Page</a></p>
+    <p><a href="https://develmaycare.com/products/python/datetime-machine/">Project Home Page</a></p>
 
 .. toctree::
    :maxdepth: 2

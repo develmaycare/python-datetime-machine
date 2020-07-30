@@ -5,52 +5,37 @@ unnamed numerical constants (i.e. `magic numbers`_).
 
 .. _magic numbers: https://en.wikipedia.org/wiki/Magic_number_(programming)
 
-**Days of the Week**
+Days of the Week
+----------------
 
 The ISO weekday numbers are available as the following constants: ``MONDAY``,
 ``TUESDAY``, ``WEDNESDAY``, ``THURSDAY``, ``FRIDAY``, ``SATURDAY``, ``SUNDAY``.
 
-**Intervals and Measurements**
+Intervals and Measurements
+--------------------------
 
-``DAYS_PER_WEEK`` is the number of days in a week (7).
+- ``DAYS_PER_WEEK`` is the number of days in a week (7).
+- ``HOURS_PER_DAY`` is the number of hours in a day (24).
+- ``LAST_HOUR`` represents the last hour of the day in 24 hour format (i.e. 23).
+- ``LAST_MINUTE`` represents the last minute of the day (59).
+- ``LAST_SECOND`` represents the last second of the day (59).
+- ``MICROSECONDS_PER_SECOND`` is the number if microseconds in a second.
+- ``MINUTES_PER_DAY`` is the number of minutes in a 24 hour day.
+- ``MINUTES_PER_HOUR`` is the number of minutes in an hour.
+- ``MONTHS_PER_YEAR`` is the number of months in a year.
+- ``MONTHS`` is a tuple of tuples containing the month number and (English) month name.
+- ``NINETY_DAYS`` is self-explanatory.
+- ``QUARTERS`` is a dictionary with 4 elements. Each key is a quarter number and the values are a tuple containing the
+  month numbers for each quarter.
+- ``SECONDS_PER_DAY`` is the number of seconds in a 24 hour day.
+- ``SECONDS_PER_HOUR`` is the number of seconds in an hour.
+- ``SECONDS_PER_MINUTE`` is the number of seconds in a minute.
+- ``SECONDS_PER_WEEK`` is the number of seconds in a 7 day week.
+- ``SIXTY_DAYS`` is self-explanatory.
+- ``THIRTY_DAYS`` is self-explanatory.
 
-``HOURS_PER_DAY`` is the number of hours in a day (24).
-
-``LAST_HOUR`` represents the last hour of the day in 24 hour format (i.e. 23).
-
-``LAST_MINUTE`` represents the last minute of the day (59).
-
-``LAST_SECOND`` represents the last second of the day (59).
-
-``MICROSECONDS_PER_SECOND`` is the number if microseconds in a second.
-
-``MINUTES_PER_DAY`` is the number of minutes in a 24 hour day.
-
-``MINUTES_PER_HOUR`` is the number of minutes in an hour.
-
-``MONTHS_PER_YEAR`` is the number of months in a year.
-
-``MONTHS`` is a tuple of tuples containing the month number and (English) month
-name.
-
-``NINETY_DAYS`` is self-explanatory.
-
-``QUARTERS`` is a dictionary with 4 elements. Each key is a quarter number and
-the values are a tuple containing the month numbers for each quarter.
-
-``SECONDS_PER_DAY`` is the number of seconds in a 24 hour day.
-
-``SECONDS_PER_HOUR`` is the number of seconds in an hour.
-
-``SECONDS_PER_MINUTE`` is the number of seconds in a minute.
-
-``SECONDS_PER_WEEK`` is the number of seconds in a 7 day week.
-
-``SIXTY_DAYS`` is self-explanatory.
-
-``THIRTY_DAYS`` is self-explanatory.
-
-**UTC Timezone**
+UTC Timezone
+------------
 
 ``UTC`` from ``pytz`` is made available a convenience.
 
@@ -61,9 +46,8 @@ import pytz
 
 # Exports
 
-# Be sure to update this if adding new constants. Also, it's good form to do
-# this. Also, if you don't do this, modules used here might be imported by other
-# modules and very hard-to-troubleshoot things will happen.
+# Be sure to update this if adding new constants. Also, it's good form to do this. Also, if you don't do this, modules
+# used here might be imported by other modules and very hard-to-troubleshoot things will happen.
 __all__ = (
     "DAYS_PER_YEAR",
     "DAYS_PER_WEEK",

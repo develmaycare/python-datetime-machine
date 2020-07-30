@@ -1,22 +1,15 @@
 """
-Similar to constants, tokens in the variables module provide values that change
-depending upon the current date and time.
+Similar to constants, tokens in the variables module provide values that change depending upon the current date and
+time.
 
-``CURRENT_DT`` is the current datetime with UTC for the timezone.
-
-``CURRENT_MONTH`` is the current month number.
-
-``CURRENT_YEAR`` is the current year.
-
-``TODAY`` is the current date.
-
-``DAYS_IN_MONTH`` is the number of days in the current month. This is adjusted
-for leap year.
-
-``DAYS_PER_MONTH`` is a list of tuples containing the month number and the
-number of days in that month. This is adjusted for leap year.
-
-``IS_LEAP_YEAR`` indicates whether the current year is a leap year.
+- ``CURRENT_DT`` is the current datetime with UTC for the timezone.
+- ``CURRENT_MONTH`` is the current month number.
+- ``CURRENT_YEAR`` is the current year.
+- ``DAYS_IN_MONTH`` is the number of days in the current month. This is adjusted for leap year.
+- ``DAYS_PER_MONTH`` is a list of tuples containing the month number and the number of days in that month. This is
+  adjusted for leap year.
+- ``IS_LEAP_YEAR`` indicates whether the current year is a leap year.
+- ``TODAY`` is the current date.
 
 """
 
@@ -42,8 +35,7 @@ __all__ = (
     "TODAY",
 )
 
-# The current datetime, month, year, and today's date. Timezone must always
-# default to UTC.
+# The current datetime, month, year, and today's date. Timezone must always default to UTC.
 CURRENT_DT = datetime.utcnow().replace(tzinfo=UTC)
 CURRENT_MONTH = CURRENT_DT.month
 CURRENT_YEAR = CURRENT_DT.year

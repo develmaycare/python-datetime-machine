@@ -1,16 +1,13 @@
 """
-A number of low-level utilities are available to manipulate dates and times. The
-classes in the library make use of these.
+A number of low-level utilities are available to manipulate dates and times. The classes in the library make use of
+these.
 
 """
 # Imports
 
 import calendar
 from dateutil.relativedelta import relativedelta
-from .constants import (
-    SATURDAY,
-    SUNDAY,
-)
+from .constants import SATURDAY, SUNDAY
 from .variables import CURRENT_YEAR, DAYS_PER_MONTH
 
 # Exports
