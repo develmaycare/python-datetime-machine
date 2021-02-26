@@ -14,6 +14,7 @@ from .variables import CURRENT_YEAR, DAYS_PER_MONTH
 
 __all__ = (
     "get_days_in_month",
+    "get_year_range",
     "increment",
     "is_business_day",
     "is_holiday",
@@ -44,6 +45,26 @@ def get_days_in_month(month, year=CURRENT_YEAR):
             return days_in_month
 
     raise ValueError("Not a valid month number: %s" % month)
+
+
+def get_year_range(start, end=None):
+    """Get a range of years.
+
+    :param start: The starting year.
+    :type start: int
+
+    :param end: The ending year. Defaults to the current year.
+    :type end: int
+
+    :rtype: list[int]
+
+    """
+    if end is None:
+        _end = CURRENT_YEAR + 1
+    else:
+        _end = end + 1
+
+    return list(range(start, _end))
 
 
 def increment(dt, business_days=0, holidays=None, **kwargs):
@@ -112,7 +133,7 @@ def is_holiday(dt, holidays):
     """Determine whether the given date/time is a holiday.
 
     :param dt: The date/time to be checked.
-    :type dt: datetime
+    :type dt: datetime.datetime
 
     :param holidays: Holidays (or other time off) as datetime objects.
     :type holidays: list

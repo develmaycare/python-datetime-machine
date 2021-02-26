@@ -1,6 +1,6 @@
 from .constants import *
 from .library import DateTime, DateTimeRange, Month, Week, Year
-from .utils import get_days_in_month, increment, is_business_day, is_holiday, is_leap_year
+from .utils import *
 from .variables import *
 
 __all__ = (
@@ -22,6 +22,8 @@ __all__ = (
     "MINUTES_PER_HOUR",
     "MONDAY",
     "MONTHS",
+    "MONTH_NAMES",
+    "MONTH_NUMBERS",
     "MONTHS_PER_YEAR",
     "NINETY_DAYS",
     "QUARTERS",
@@ -39,6 +41,7 @@ __all__ = (
     "WEDNESDAY",
     "UTC",
     "get_days_in_month",
+    "get_year_range",
     "increment",
     "is_business_day",
     "is_holiday",
@@ -49,7 +52,3 @@ __all__ = (
     "Week",
     "Year",
 )
-
-__author__ = "Shawn Davis <shawn@develmaycare.com>"
-__maintainer__ = "Shawn Davis <shawn@develmaycare.com>"
-__version__ = "0.8.0-d"
