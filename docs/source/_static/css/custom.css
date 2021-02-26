@@ -13,6 +13,31 @@
     max-width: 100% !important;
 }
 
+#version-warning {
+    background: #ef3939;
+    color: #ffffff;
+    height: 3em;
+    left: 0;
+    margin: 0 auto;
+    position: -webkit-sticky;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+}
+
+#version-warning p {
+    padding: 1em;
+    text-align: center;
+}
+
+#version-warning a {
+    color: #ffffff;
+    text-decoration: underline;
+}
+/*
+id="version-warning"
+         style="color: #ffffff; position: absolute; top: 0; left: 0; width: 100%;   ">
+ */
 /*
 .wy-side-nav-search {
     background: #506a8a !important;
