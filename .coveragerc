@@ -7,3 +7,4 @@ omit =
     tests/*
     tmp/*
     tmp.*
+    */version.py

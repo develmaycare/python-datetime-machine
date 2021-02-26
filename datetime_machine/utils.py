@@ -114,7 +114,7 @@ def is_business_day(dt, holidays=None):
     :type dt: datetime
 
     :param holidays: Holidays or other time off.
-    :type holidays: list
+    :type holidays: list[date]
 
     :rtype: bool
 
@@ -124,7 +124,7 @@ def is_business_day(dt, holidays=None):
         return False
 
     if is_holiday(dt, holidays):
-        return True
+        return False
 
     return True
 
@@ -136,7 +136,7 @@ def is_holiday(dt, holidays):
     :type dt: datetime.datetime
 
     :param holidays: Holidays (or other time off) as datetime objects.
-    :type holidays: list
+    :type holidays: list[date]
 
     :rtype: bool
 
@@ -145,7 +145,7 @@ def is_holiday(dt, holidays):
 
     """
     if type(holidays) == list:
-        return dt in holidays
+        return dt.date() in holidays
     else:
         return False
 

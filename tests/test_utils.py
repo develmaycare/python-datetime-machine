@@ -37,12 +37,18 @@ def test_is_business_day():
     assert is_business_day(dt) is False
 
     holidays = [
-        datetime.strptime("2021-12-25 13:14:00", "%Y-%m-%d %H:%M:%S"),
+        datetime.strptime("2021-01-01 13:14:00", "%Y-%m-%d %H:%M:%S").date(),
+        datetime.strptime("2021-12-25 13:14:00", "%Y-%m-%d %H:%M:%S").date(),
     ]
     dt = datetime.strptime("2021-12-24 13:14:00", "%Y-%m-%d %H:%M:%S")
     assert is_business_day(dt, holidays=holidays) is True
 
+    # This is a weekend and a holiday.
     dt = datetime.strptime("2021-12-25 13:14:00", "%Y-%m-%d %H:%M:%S")
+    assert is_business_day(dt, holidays=holidays) is False
+
+    # This is a weekday and a holiday.
+    dt = datetime.strptime("2021-01-01 13:14:00", "%Y-%m-%d %H:%M:%S")
     assert is_business_day(dt, holidays=holidays) is False
 
 
