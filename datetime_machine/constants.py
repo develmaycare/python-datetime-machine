@@ -24,6 +24,8 @@ Intervals and Measurements
 - ``MINUTES_PER_HOUR`` is the number of minutes in an hour.
 - ``MONTHS_PER_YEAR`` is the number of months in a year.
 - ``MONTHS`` is a tuple of tuples containing the month number and (English) month name.
+- ``MONTH_NAMES``: A dictionary of month numbers and untranslated (English) month names.
+- ``MONTH_NUMBERS``: A list of month numbers.
 - ``NINETY_DAYS`` is self-explanatory.
 - ``QUARTERS`` is a dictionary with 4 elements. Each key is a quarter number and the values are a tuple containing the
   month numbers for each quarter.
@@ -61,6 +63,8 @@ __all__ = (
     "MINUTES_PER_HOUR",
     "MONDAY",
     "MONTHS",
+    "MONTH_NAMES",
+    "MONTH_NUMBERS",
     "MONTHS_PER_YEAR",
     "NINETY_DAYS",
     "QUARTERS",
@@ -131,6 +135,23 @@ MONTHS = (
     (11, "November"),
     (12, "December"),
 )
+
+MONTH_NAMES = {
+    1: "January",
+    2: "February",
+    3: "March",
+    4: "April",
+    5: "May",
+    6: "June",
+    7: "July",
+    8: "August",
+    9: "September",
+    10: "October",
+    11: "November",
+    12: "December",
+}
+
+MONTH_NUMBERS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 # Make UTC available.
 UTC = pytz.UTC
