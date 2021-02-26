@@ -1,0 +1,5 @@
+DATE = "2021-02-26"
+VERSION = "0.10.0-x"
+MAJOR = 0
+MINOR = 10
+PATCH = 0
