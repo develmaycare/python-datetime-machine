@@ -331,6 +331,48 @@ class DateTime(object):
         """
         return self._starting_dt
 
+    def replace(self, key, value):
+        """Replace a value in the current date/time.
+
+        :param key: The name of the value to be replaced; day, hour, microsecond, minute, month, second, year, or
+                    timezone.
+        :type key: str
+
+        :param value: The value to be replaced. This is an integer for everything except timezone, which is a string
+                      that will be converted using pytz.
+        :type value: int | str
+
+        :rtype: datetime
+        :returns: The new date/time.
+
+        :raise: TypeError
+        :raises: ``TypeError`` when an invalid key name is supplied.
+
+        """
+        valid_keys = [
+            "day",
+            "hour",
+            "microsecond",
+            "minute",
+            "month",
+            "second",
+            "timezone",
+            "tz",
+            "tzinfo",
+            "year"
+        ]
+        if key not in valid_keys:
+            raise TypeError("Invalid key (%s), must be one of: %s" % (key, ", ".join(valid_keys)))
+
+        if key in ("timezone", "tz", "tzinfo"):
+            timezone = pytz.timezone(value)
+            self._current_dt = self._current_dt.replace(tzinfo=timezone)
+
+            return self._current_dt
+
+        self._current_dt = self._current_dt.replace(key=value)
+        return self._current_dt
+
     def rewind(self, business_days=0, days=None, holidays=None, hours=None, microseconds=None, minutes=None,
                      months=None, seconds=None, weeks=None, years=None):
         """Move the date and time using the given parameters.
