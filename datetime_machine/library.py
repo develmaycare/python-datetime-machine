@@ -196,11 +196,19 @@ class DateTime(object):
             'weeks': weeks,
             'years': years,
         }
+
+        _kwargs = dict()
+        for key, value in kwargs.items():
+            if value is None:
+                continue
+
+            _kwargs[key] = value
+
         self._current_dt = increment(
             self.dt,
             business_days=business_days,
             holidays=holidays,
-            **kwargs
+            **_kwargs
         )
 
         self._ending_dt = self._current_dt
@@ -293,17 +301,6 @@ class DateTime(object):
 
         return self.dt
 
-    def is_business_day(self, holidays=None):
-        """Determine whether the date/time is a business day.
-
-        :param holidays: Holidays or other time off.
-        :type holidays: list
-
-        :rtype: bool
-
-        """
-        return is_business_day(self.dt, holidays)
-
     def in_range(self, start_dt, end_dt):
         """Determine whether the date and time falls within a range of two
         dates.
@@ -320,6 +317,17 @@ class DateTime(object):
         # Using pandas date_range() would be overkill here since pandas is not
         # already in use.
         return start_dt <= self.dt <= end_dt
+
+    def is_business_day(self, holidays=None):
+        """Determine whether the date/time is a business day.
+
+        :param holidays: Holidays or other time off.
+        :type holidays: list
+
+        :rtype: bool
+
+        """
+        return is_business_day(self.dt, holidays)
 
     @property
     def original(self):
@@ -364,17 +372,18 @@ class DateTime(object):
         if key not in valid_keys:
             raise TypeError("Invalid key (%s), must be one of: %s" % (key, ", ".join(valid_keys)))
 
+        _kwargs = dict()
         if key in ("timezone", "tz", "tzinfo"):
-            timezone = pytz.timezone(value)
-            self._current_dt = self._current_dt.replace(tzinfo=timezone)
+            _kwargs['tzinfo'] = pytz.timezone(value)
+        else:
+            _kwargs[key] = value
 
-            return self._current_dt
+        self._current_dt = self._current_dt.replace(**_kwargs)
 
-        self._current_dt = self._current_dt.replace(key=value)
         return self._current_dt
 
     def rewind(self, business_days=0, days=None, holidays=None, hours=None, microseconds=None, minutes=None,
-                     months=None, seconds=None, weeks=None, years=None):
+               months=None, seconds=None, weeks=None, years=None):
         """Move the date and time using the given parameters.
 
         :param business_days: The number of business days to increment.
@@ -429,6 +438,9 @@ class DateTime(object):
 
         reverse_kwargs = dict()
         for key, value in kwargs.items():
+            if value is None:
+                continue
+
             reverse_value = value - value * 2
             reverse_kwargs[key] = reverse_value
 
