@@ -130,7 +130,7 @@ class DateTime(object):
 
         """
         dt = self._current_dt
-        dt = dt.replace(hour=23, minute=59)
+        dt = dt.replace(hour=23, minute=59, second=59)
         return dt
 
     def end_of_month_dt(self):
@@ -143,7 +143,7 @@ class DateTime(object):
 
         day = get_days_in_month(dt.month, year=dt.year)
 
-        dt = dt.replace(day=day, hour=23, minute=59)
+        dt = dt.replace(day=day, hour=23, minute=59, second=59)
 
         return dt
 
@@ -493,7 +493,7 @@ class DateTime(object):
 
         """
         dt = self._current_dt
-        dt = dt.replace(hour=0, minute=1)
+        dt = dt.replace(hour=0, minute=0, second=1)
         return dt
 
     def start_of_month_dt(self):
@@ -503,7 +503,7 @@ class DateTime(object):
 
         """
         dt = self._current_dt
-        dt = dt.replace(day=1, hour=0, minute=1)
+        dt = dt.replace(day=1, hour=0, minute=0, second=1)
         return dt
 
     @property
