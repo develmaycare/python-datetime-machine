@@ -147,6 +147,12 @@ class DateTime(object):
 
         return dt
 
+    def end_of_year_dt(self):
+        dt = self._current_dt
+        dt = dt.replace(day=31, hour=23, minute=29, month=12, second=59)
+
+        return dt
+
     def fast_forward(self, business_days=0, days=None, holidays=None, hours=None, microseconds=None, minutes=None,
                      months=None, seconds=None, weeks=None, years=None):
         """Advance the date and time using the given parameters.
@@ -504,6 +510,12 @@ class DateTime(object):
         """
         dt = self._current_dt
         dt = dt.replace(day=1, hour=0, minute=0, second=1)
+        return dt
+
+    def start_of_year_dt(self):
+        dt = self._current_dt
+        dt = dt.replace(day=1, hour=0, minute=0, month=1, second=1)
+
         return dt
 
     @property
