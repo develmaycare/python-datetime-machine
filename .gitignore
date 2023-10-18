@@ -1,8 +1,10 @@
+*.egg-info
 *.pyc
 .coverage
 .DS_Store
 .idea
 _scraps
+build
 docs/build
 tmp
 tmp.*
